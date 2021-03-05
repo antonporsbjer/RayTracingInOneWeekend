@@ -1,9 +1,12 @@
 #ifndef OBJECT3D_LIST_H
 #define OBJECT3D_LIST_H
 
+#include "rt_math.h"
+#include "object3d.h"
+
 #include <memory>
 #include <vector>
-#include "object3d.h"
+
 
 using std::shared_ptr;
 using std::make_shared;

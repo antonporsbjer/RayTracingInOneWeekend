@@ -2,11 +2,10 @@
 #define RT_MATH_H
 
 #include <cmath>
+#include <cstdlib>
 #include <limits>
 #include <memory>
 #include <random>
-#include "ray.h"
-#include "vec3.h"
 
 using std::shared_ptr;
 using std::make_shared;
@@ -23,6 +22,12 @@ inline float degrees_to_radians(float degrees) {
 
 inline float random_float(){
     static std::uniform_real_distribution<float> distribution(0.0, 1.0f);
+    static std::mt19937 generator;
+    return distribution(generator);
+}
+
+inline float random_float(float min, float max){
+    static std::uniform_real_distribution<float> distribution(min, max);
     static std::mt19937 generator;
     return distribution(generator);
 }

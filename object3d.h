@@ -1,7 +1,7 @@
 #ifndef OBJECT3D_H
 #define OBJECT3D_H
 
-#include "ray.h"
+#include "rt_math.h"
 
 struct hit_record {
     point3 p;

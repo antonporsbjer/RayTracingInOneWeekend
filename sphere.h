@@ -1,7 +1,7 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 
-#include "vec3.h"
+#include "rt_math.h"
 #include "object3d.h"
 
 class sphere : public object3d {
