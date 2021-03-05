@@ -3,9 +3,27 @@
 #include "color.h"
 #include "ray.h"
 
+float hit_sphere(const point3& sphere_center, float radius, const ray& r){
+    vec3 oc = r.origin() - sphere_center;
+    auto a = dot(r.direction(), r.direction());
+    auto b = 2.0f * dot(oc, r.direction());
+    auto c = dot(oc, oc) - radius * radius;
+    auto discriminant = b * b - 4*a*c;
+    if (discriminant < 0.0f){
+        return -1.0f;
+    } else {
+        return (-b - sqrt(discriminant)) / (2.0f * a);
+    }
+}
+
 color ray_color(const ray& r){
+    auto t = hit_sphere(point3(0.0f, 0.0f, -1.0f), 0.5f, r);
+    if (t > 0.0f){
+        vec3 N = unit_vector(r.at(t) - vec3(0.0f, 0.0f, -1.0f));
+        return 0.5f * color(N.x() + 1.0f, N.y() + 1.0f, N.z() + 1.0f);
+    }
     vec3 unit_direction = unit_vector(r.direction());
-    auto t = 0.5f * (unit_direction.y() + 1.0f);
+    t = 0.5f * (unit_direction.y() + 1.0f);
     
     return (1.0f - t) * color(1.0f,1.0f,1.0f) + t * color(0.5f, 0.7f, 1.0f);
 }
