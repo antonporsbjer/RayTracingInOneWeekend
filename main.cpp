@@ -5,14 +5,14 @@
 
 float hit_sphere(const point3& sphere_center, float radius, const ray& r){
     vec3 oc = r.origin() - sphere_center;
-    auto a = dot(r.direction(), r.direction());
-    auto b = 2.0f * dot(oc, r.direction());
-    auto c = dot(oc, oc) - radius * radius;
-    auto discriminant = b * b - 4*a*c;
+    auto a = r.direction().length_squared();
+    auto half_b = dot(oc, r.direction()); 
+    auto c = oc.length_squared() - radius * radius;
+    auto discriminant = half_b * half_b - a*c;
     if (discriminant < 0.0f){
         return -1.0f;
     } else {
-        return (-b - sqrt(discriminant)) / (2.0f * a);
+        return (-half_b - sqrt(discriminant)) / a;
     }
 }
 
