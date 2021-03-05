@@ -1,7 +1,9 @@
 #include <iostream>
-#include "vec3.h"
+#include "rt_math.h"
 #include "color.h"
-#include "ray.h"
+#include "object3d_list.h"
+#include "sphere.h"
+
 
 float hit_sphere(const point3& sphere_center, float radius, const ray& r){
     vec3 oc = r.origin() - sphere_center;
