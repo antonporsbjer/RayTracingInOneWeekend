@@ -4,6 +4,7 @@
 #include <cmath>
 #include <limits>
 #include <memory>
+#include <random>
 #include "ray.h"
 #include "vec3.h"
 
@@ -18,6 +19,12 @@ const float pi = 3.1415926;
 // Utility functions
 inline float degrees_to_radians(float degrees) {
     return degrees * pi / 180.0f;
+}
+
+inline float random_float(){
+    static std::uniform_real_distribution<float> distribution(0.0, 1.0f);
+    static std::mt19937 generator;
+    return distribution(generator);
 }
 
 #endif
