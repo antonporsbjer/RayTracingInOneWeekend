@@ -3,17 +3,19 @@
 
 #include "rt_math.h"
 #include "object3d.h"
+#include "material.h"
 
 class sphere : public object3d {
     public:
         sphere() {}
-        sphere(point3 sphere_center, float sphere_radius) : center(sphere_center), radius(sphere_radius) {};
+        sphere(point3 sphere_center, float sphere_radius, shared_ptr<material> sphere_material) : center(sphere_center), radius(sphere_radius), material_ptr(sphere_material) {};
 
         virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const override;
 
         public:
             point3 center;
             float radius;
+            shared_ptr<material> material_ptr;
 };
 
 bool sphere::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
@@ -43,6 +45,7 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record& rec) const 
     rec.p = r.at(rec.t);
     vec3 outwards_normal = (rec.p - center) / radius;
     rec.set_front_face_normal(r, outwards_normal);
+    rec.material_ptr = material_ptr;
 
     return true;
 }

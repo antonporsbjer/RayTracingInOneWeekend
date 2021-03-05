@@ -2,10 +2,12 @@
 #define OBJECT3D_H
 
 #include "rt_math.h"
+#include "material.h"
 
 struct hit_record {
     point3 p;
     vec3 normal;
+    shared_ptr<material> material_ptr;
     float t;
     bool front_face;
 
