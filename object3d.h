@@ -2,7 +2,8 @@
 #define OBJECT3D_H
 
 #include "rt_math.h"
-#include "material.h"
+
+class material;
 
 struct hit_record {
     point3 p;

@@ -2,6 +2,8 @@
 #define CAMERA_H
 
 #include "rt_math.h"
+#include "ray.h"
+
 
 class camera{
     public:

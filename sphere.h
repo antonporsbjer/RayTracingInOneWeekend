@@ -3,7 +3,7 @@
 
 #include "rt_math.h"
 #include "object3d.h"
-#include "material.h"
+
 
 class sphere : public object3d {
     public:

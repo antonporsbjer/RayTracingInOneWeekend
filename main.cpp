@@ -1,11 +1,10 @@
+
 #include "rt_math.h"
-#include "vec3.h"
-#include "ray.h"
 #include "camera.h"
 #include "color.h"
 #include "object3d_list.h"
+#include "material.h"
 #include "sphere.h"
-#include "object3d.h"
 
 #include <iostream>
 
@@ -14,8 +13,12 @@ color ray_color(const ray& r, const object3d& world, int depth){
     hit_record rec;
     if (depth <= 0) { return color(0.0f, 0.0f, 0.0f); } // If ray bounce limit is exceeded.
     if (world.hit(r, 0.001f, infinity, rec)) {
-        point3 target = rec.p + random_in_hemisphere(rec.normal);
-        return 0.5f * ray_color(ray(rec.p, target - rec.p), world, depth - 1);
+        ray scattered;
+        color attenuation;
+        if (rec.material_ptr->scatter(r, rec, attenuation, scattered)) {
+            return attenuation * ray_color(scattered, world, depth - 1);
+        }
+        return color(0.0f, 0.0f, 0.0f);
     }
     vec3 unit_direction = unit_vector(r.direction());
     auto t = 0.5f * (unit_direction.y() + 1.0f);
@@ -34,10 +37,16 @@ int main(int argc, char **argv){
 
     // World
     object3d_list world;
-    world.add(make_shared<sphere>(point3(0.0f, 0.0f, -1.0f), 0.5f));
-    world.add(make_shared<sphere>(point3(0.0f, -100.5f, -1.0f), 100.0f));
-    //world.add(make_shared<sphere>(point3(0.0f, 1.0f, -1.0f), 0.5f));
-    //world.add(make_shared<sphere>(point3(1.0f, 0.0f, -1.0f), 0.5f));
+
+    auto material_ground = make_shared<lambertian>(color(0.8f, 0.8f, 0.0f));
+    auto material_center = make_shared<lambertian>(color(0.7f, 0.3f, 0.3f));
+    auto material_left = make_shared<metal>(color(0.8f, 0.8f, 0.8f));
+    auto material_right = make_shared<metal>(color(0.8f, 0.6f, 0.3f));
+
+    world.add(make_shared<sphere>(point3(0.0f, -100.5f, -1.0f), 100.0f, material_ground));
+    world.add(make_shared<sphere>(point3(0.0f, 0.0f, -1.0f), 0.5f, material_center));
+    world.add(make_shared<sphere>(point3(-1.0f, 0.0f, -1.0f), 0.5f, material_left));
+    world.add(make_shared<sphere>(point3(1.0f, 0.0f, -1.0f), 0.5f, material_right));
 
     // Camera
     camera camera;
