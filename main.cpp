@@ -39,12 +39,12 @@ int main(int argc, char **argv){
     object3d_list world;
 
     auto material_ground = make_shared<lambertian>(color(0.8f, 0.8f, 0.0f));
-    auto material_center = make_shared<dialectric>(1.5f);
-    auto material_left = make_shared<metal>(color(0.8f, 0.8f, 0.8f), 0.3f);
-    auto material_right = make_shared<metal>(color(0.8f, 0.6f, 0.3f), 1.0f);
+    auto material_center = make_shared<lambertian>(color(0.1f, 0.2f, 0.5f));
+    auto material_left = make_shared<dialectric>(1.5f);
+    auto material_right = make_shared<metal>(color(0.8f, 0.6f, 0.3f), 0.1f);
 
     world.add(make_shared<sphere>(point3(0.0f, -100.5f, -1.0f), 100.0f, material_ground));
-    world.add(make_shared<sphere>(point3(0.0f, 0.0f, -1.0f), 0.5f, material_center));
+    world.add(make_shared<sphere>(point3(0.0f, 0.0f, -1.2f), 0.5f, material_center));
     world.add(make_shared<sphere>(point3(-1.0f, 0.0f, -1.0f), 0.5f, material_left));
     world.add(make_shared<sphere>(point3(1.0f, 0.0f, -1.0f), 0.5f, material_right));
 
@@ -55,7 +55,7 @@ int main(int argc, char **argv){
     std::cout << "P3\n" << image_width << " " << image_height << "\n255\n";
 
     for (int j = image_height-1; j >= 0; --j){
-        std::cerr << "\rScaning remaining: " << j << " " << std::flush;
+        std::cerr << "\rScaning remaining: " << j << " " << std::flush; // Render progress!
         for(int i = 0; i < image_width; ++i){
             color pixel_color(0.0f, 0.0f, 0.0f);
             for(int s = 0; s < samples_per_pixel; ++s){

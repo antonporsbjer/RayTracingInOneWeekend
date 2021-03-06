@@ -56,14 +56,36 @@ class dialectric : public material {
             float refraction_ratio = rec.front_face ? (1.0f / ref_index) : ref_index;
 
             vec3 unit_direction = unit_vector(r_in.direction());
-            vec3 refracted = refract(unit_direction, rec.normal, refraction_ratio);
+            float cos_theta = fmin(dot(unit_direction, rec.normal), 1.0f);
+            float sin_theta = sqrt(1.0f - cos_theta * cos_theta);
 
-            scattered = ray(rec.p, refracted);
+            bool cannot_refract = refraction_ratio * sin_theta > 1.0f;
+            vec3 direction;
+
+            float rnd = random_float();
+
+            //std::cerr << "rnd: " << rnd << std::endl;
+
+            if (cannot_refract || reflectance(cos_theta, refraction_ratio) > rnd) {
+                direction = reflect(unit_direction, rec.normal);
+            } else {
+                direction = refract(unit_direction, rec.normal, refraction_ratio);
+            }
+
+            scattered = ray(rec.p, direction);
             return true;
         }
 
         public:
             float ref_index;
+
+        private:
+            static float reflectance(float cosine, float ref_idx) {
+                // Schlick's approximation
+                auto r0 = (1 - ref_idx) / (1 + ref_idx);
+                r0 = r0 * r0;
+                return r0 + (1 - r0) * pow((1 - cosine), 5);
+            }
 };
 
 #endif
