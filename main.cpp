@@ -40,8 +40,8 @@ int main(int argc, char **argv){
 
     auto material_ground = make_shared<lambertian>(color(0.8f, 0.8f, 0.0f));
     auto material_center = make_shared<lambertian>(color(0.7f, 0.3f, 0.3f));
-    auto material_left = make_shared<metal>(color(0.8f, 0.8f, 0.8f));
-    auto material_right = make_shared<metal>(color(0.8f, 0.6f, 0.3f));
+    auto material_left = make_shared<metal>(color(0.8f, 0.8f, 0.8f), 0.3f);
+    auto material_right = make_shared<metal>(color(0.8f, 0.6f, 0.3f), 1.0f);
 
     world.add(make_shared<sphere>(point3(0.0f, -100.5f, -1.0f), 100.0f, material_ground));
     world.add(make_shared<sphere>(point3(0.0f, 0.0f, -1.0f), 0.5f, material_center));
