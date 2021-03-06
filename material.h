@@ -47,4 +47,23 @@ class metal : public material {
         float fuzz;
 };
 
+class dialectric : public material {
+    public:
+        dialectric(float refraction_index) : ref_index(refraction_index) {}
+
+        virtual bool scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered) const override {
+            attenuation = color(1.0f, 1.0f, 1.0f);
+            float refraction_ratio = rec.front_face ? (1.0f / ref_index) : ref_index;
+
+            vec3 unit_direction = unit_vector(r_in.direction());
+            vec3 refracted = refract(unit_direction, rec.normal, refraction_ratio);
+
+            scattered = ray(rec.p, refracted);
+            return true;
+        }
+
+        public:
+            float ref_index;
+};
+
 #endif
