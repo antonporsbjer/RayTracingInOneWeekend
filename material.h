@@ -62,11 +62,7 @@ class dialectric : public material {
             bool cannot_refract = refraction_ratio * sin_theta > 1.0f;
             vec3 direction;
 
-            float rnd = random_float();
-
-            //std::cerr << "rnd: " << rnd << std::endl;
-
-            if (cannot_refract || reflectance(cos_theta, refraction_ratio) > rnd) {
+            if (cannot_refract || reflectance(cos_theta, refraction_ratio) > random_float()) {
                 direction = reflect(unit_direction, rec.normal);
             } else {
                 direction = refract(unit_direction, rec.normal, refraction_ratio);

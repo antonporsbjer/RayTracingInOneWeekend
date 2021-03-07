@@ -36,20 +36,17 @@ int main(int argc, char **argv){
     const int max_depth = 50;
 
     // World
+    auto R = cos(pi / 4);
     object3d_list world;
 
-    auto material_ground = make_shared<lambertian>(color(0.8f, 0.8f, 0.0f));
-    auto material_center = make_shared<lambertian>(color(0.1f, 0.2f, 0.5f));
-    auto material_left = make_shared<dialectric>(1.5f);
-    auto material_right = make_shared<metal>(color(0.8f, 0.6f, 0.3f), 0.1f);
+    auto material_left = make_shared<lambertian>(color(0.0f, 0.0f, 1.0f));
+    auto material_right = make_shared<lambertian>(color(1.0f, 0.0f, 0.0f));
 
-    world.add(make_shared<sphere>(point3(0.0f, -100.5f, -1.0f), 100.0f, material_ground));
-    world.add(make_shared<sphere>(point3(0.0f, 0.0f, -1.2f), 0.5f, material_center));
-    world.add(make_shared<sphere>(point3(-1.0f, 0.0f, -1.0f), 0.5f, material_left));
-    world.add(make_shared<sphere>(point3(1.0f, 0.0f, -1.0f), 0.5f, material_right));
+    world.add(make_shared<sphere>(point3(-R, 0.0f, -1.0f), R, material_left));
+    world.add(make_shared<sphere>(point3(R, 0.0f, -1.0f), R, material_right));
 
     // Camera
-    camera camera;
+    camera camera(90.0f, aspect_ratio);
 
     // Render
     std::cout << "P3\n" << image_width << " " << image_height << "\n255\n";
