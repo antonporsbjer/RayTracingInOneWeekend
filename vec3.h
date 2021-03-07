@@ -132,14 +132,14 @@ vec3 random_in_hemisphere(const vec3& normal){
     }
 }
 
-vec3 reflect(const vec3& v, const vec3 n) {
+vec3 reflect(const vec3& v, const vec3& n) {
     return v - 2 * dot(v, n) * n;
 }
 
-vec3 refract(const vec3& uv, const vec3 n, float etaI_over_etaT){
+vec3 refract(const vec3& uv, const vec3& n, float etaI_over_etaT){
     auto cos_theta = fmin(dot(-uv, n), 1.0f);
     vec3 r_out_perp = etaI_over_etaT * (uv + cos_theta * n);
-    vec3 r_out_parallel = - sqrt(fabs(1.0f - r_out_perp.length_squared())) * n;
+    vec3 r_out_parallel = -sqrt(fabs(1.0f - r_out_perp.length_squared())) * n;
     return r_out_perp + r_out_parallel;
 }
 

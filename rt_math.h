@@ -26,10 +26,19 @@ inline float random_float(){
     return distribution(generator);
 }
 
+
 inline float random_float(float min, float max){
     static std::uniform_real_distribution<float> distribution(min, max);
     static std::mt19937 generator;
     return distribution(generator);
+}
+
+inline float random_float_c(){
+    return rand() / (RAND_MAX + 1.0f);
+}
+
+inline float random_float_c(float min, float max){
+    return min + (max - min) * random_float_c();
 }
 
 inline float clamp(float x, float min, float max){
