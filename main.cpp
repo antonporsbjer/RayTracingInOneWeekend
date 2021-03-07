@@ -39,14 +39,19 @@ int main(int argc, char **argv){
     auto R = cos(pi / 4);
     object3d_list world;
 
-    auto material_left = make_shared<lambertian>(color(0.0f, 0.0f, 1.0f));
-    auto material_right = make_shared<lambertian>(color(1.0f, 0.0f, 0.0f));
+    auto material_ground = make_shared<lambertian>(color(0.8f, 0.8f, 0.0f));
+    auto material_center = make_shared<lambertian>(color(0.1f, 0.2f, 0.5f));
+    auto material_left = make_shared<dialectric>(1.5);
+    auto material_right = make_shared<metal>(color(0.8f, 0.6f, 0.2f), 0.0f);
 
-    world.add(make_shared<sphere>(point3(-R, 0.0f, -1.0f), R, material_left));
-    world.add(make_shared<sphere>(point3(R, 0.0f, -1.0f), R, material_right));
+    world.add(make_shared<sphere>(point3(0.0f, -100.5f, -1.0f), 100.0f, material_ground));
+    world.add(make_shared<sphere>(point3(0.0f, 0.0f, -1.0f), 0.5f, material_center));
+    world.add(make_shared<sphere>(point3(-1.0f, 0.0f, -1.0f), 0.5f, material_left));
+    world.add(make_shared<sphere>(point3(-1.0f, 0.0f, -1.0f), -0.45, material_left));
+    world.add(make_shared<sphere>(point3(1.0f, 0.0f, -1.0f), 0.5, material_right));
 
     // Camera
-    camera camera(90.0f, aspect_ratio);
+    camera camera(point3(-2,2,1), point3(0,0,-1), vec3(0,1,0), 20, aspect_ratio);
 
     // Render
     std::cout << "P3\n" << image_width << " " << image_height << "\n255\n";
