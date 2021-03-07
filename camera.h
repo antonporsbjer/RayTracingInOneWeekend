@@ -10,7 +10,7 @@ class camera{
         camera(point3 look_from, point3 look_at, vec3 v_up, float vert_fov, float aspect_ratio){
             auto theta = degrees_to_radians(vert_fov);
             auto h = tan(theta / 2);
-            auto viewport_height = 2.0f;
+            auto viewport_height = 2.0f * h;
             auto viewport_width = aspect_ratio * viewport_height;
             auto focal_length = 1.0f;
 

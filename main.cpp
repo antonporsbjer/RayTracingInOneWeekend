@@ -51,7 +51,7 @@ int main(int argc, char **argv){
     world.add(make_shared<sphere>(point3(1.0f, 0.0f, -1.0f), 0.5, material_right));
 
     // Camera
-    camera camera(point3(-2,2,1), point3(0,0,-1), vec3(0,1,0), 20, aspect_ratio);
+    camera camera(point3(-2,2,1), point3(0,0,-1), vec3(0,1,0), 90, aspect_ratio);
 
     // Render
     std::cout << "P3\n" << image_width << " " << image_height << "\n255\n";
