@@ -47,11 +47,13 @@ class metal : public material {
         float fuzz;
 };
 
-class dialectric : public material {
+class dielectric : public material {
     public:
-        dialectric(float refraction_index) : ref_index(refraction_index) {}
+        dielectric(float refraction_index) : ref_index(refraction_index) {}
 
-        virtual bool scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered) const override {
+        virtual bool scatter(
+            const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered
+        ) const override {
             attenuation = color(1.0f, 1.0f, 1.0f);
             float refraction_ratio = rec.front_face ? (1.0f / ref_index) : ref_index;
 
@@ -63,11 +65,11 @@ class dialectric : public material {
             vec3 direction;
 
             // TODO: Fix bug where the if-statement always reflect and don't refract!
-            //if (cannot_refract || reflectance(cos_theta, ref_index) > random_float()) {
-            //    direction = reflect(unit_direction, rec.normal);
-            //} else {
+            if (cannot_refract || reflectance(cos_theta, refraction_ratio) > random_float()) {
+                direction = reflect(unit_direction, rec.normal);
+            } else {
                 direction = refract(unit_direction, rec.normal, refraction_ratio);
-            //}
+            }
 
             scattered = ray(rec.p, direction);
             return true;
@@ -79,9 +81,9 @@ class dialectric : public material {
         private:
             static float reflectance(float cosine, float ref_idx) {
                 // Schlick's approximation
-                auto r0 = (1 - 1.5f) / (1 + 1.5f);
+                auto r0 = (1 - ref_idx) / (1 + ref_idx);
                 r0 = r0 * r0;
-                return r0 + (1 - r0) * pow((1 - cosine), 5);
+                return r0 + (1 - r0) * (pow((1 - cosine), 5));
             }
 };
 

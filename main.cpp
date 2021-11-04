@@ -30,7 +30,7 @@ int main(int argc, char **argv){
 
     // Image size
     const auto aspect_ratio = 16.0f / 9.0f;
-    const int image_width = 400;  // Change to get different resolution. Default: 400
+    const int image_width = 2000;  // Change to get different resolution. Default: 400
     const int image_height =static_cast<int>(image_width / aspect_ratio);
     const int samples_per_pixel = 100;
     const int max_depth = 50;
@@ -40,20 +40,30 @@ int main(int argc, char **argv){
     object3d_list world;
 
     auto material_ground = make_shared<lambertian>(color(0.8f, 0.8f, 0.0f));
-    auto material_center = make_shared<lambertian>(color(0.1f, 0.2f, 0.5f));
-    auto material_left = make_shared<dialectric>(1.5);
-    auto material_right = make_shared<metal>(color(0.8f, 0.6f, 0.2f), 0.0f);
+    auto material_center = make_shared<lambertian>(color(0.1f, 0.99f, 0.2f));
+    auto material_left = make_shared<dielectric>(1.5f);
+    auto material_right = make_shared<metal>(color(0.8f, 0.2f, 0.2f), 0.0f);
 
-    world.add(make_shared<sphere>(point3(0.0f, -100.5f, -1.0f), 100.0f, material_ground));
-    world.add(make_shared<sphere>(point3(0.0f, 0.0f, -1.0f), 0.5f, material_center));
-    world.add(make_shared<sphere>(point3(-1.0f, 0.0f, -1.0f), 0.5f, material_left));
-    world.add(make_shared<sphere>(point3(-1.0f, 0.0f, -1.0f), -0.45, material_left));
-    world.add(make_shared<sphere>(point3(1.0f, 0.0f, -1.0f), 0.5, material_right));
+    world.add(make_shared<sphere>(point3( 0.0f,  -100.5f,    -1.0f),  100.0f, material_ground));
+    world.add(make_shared<sphere>(point3( 0.0f,     0.0f,    -1.0f),    0.5f, material_center));
+    world.add(make_shared<sphere>(point3(-1.0f,     0.0f,    -1.0f),    0.5f, material_left));
+    world.add(make_shared<sphere>(point3(-1.0f,     0.0f,    -1.0f),   -0.4f, material_left));
+    world.add(make_shared<sphere>(point3( 1.0f,     0.0f,    -1.0f),    0.5f, material_right));
+
+    world.add(make_shared<sphere>(point3(-1.0f,     0.0f,    -2.0f),    0.5f, material_center));
+    world.add(make_shared<sphere>(point3( 1.0f,     0.0f,    -2.0f),    0.5f, material_left));
+    world.add(make_shared<sphere>(point3( 1.0f,     0.0f,    -2.0f),   -0.4f, material_left));
+    world.add(make_shared<sphere>(point3( 0.0f,     0.0f,    -2.0f),    0.5f, material_right));
+
+    world.add(make_shared<sphere>(point3(-1.0f,     0.0f,     0.0f),    0.5f, material_center));
+    world.add(make_shared<sphere>(point3( 1.0f,     0.0f,     0.0f),    0.5f, material_left));
+    world.add(make_shared<sphere>(point3( 1.0f,     0.0f,     0.0f),   -0.4f, material_left));
+    world.add(make_shared<sphere>(point3( 0.0f,     0.0f,     0.0f),    0.5f, material_right));
 
     // Camera
-    camera camera(point3(-2,2,1), point3(0,0,-1), vec3(0,1,0), 50, aspect_ratio);
+    camera camera(point3(-2,2,1), point3(0,0,-1), vec3(0,1,0), 80, aspect_ratio);
 
-    // Render
+    // Render loop
     std::cout << "P3\n" << image_width << " " << image_height << "\n255\n";
 
     for (int j = image_height-1; j >= 0; --j){
