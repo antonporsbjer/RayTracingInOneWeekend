@@ -49,22 +49,21 @@ class metal : public material {
 
 class dielectric : public material {
     public:
-        dielectric(float refraction_index) : ref_index(refraction_index) {}
+        dielectric(float refraction_index) : ir(refraction_index) {}
 
         virtual bool scatter(
             const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered
         ) const override {
             attenuation = color(1.0f, 1.0f, 1.0f);
-            float refraction_ratio = rec.front_face ? (1.0f / ref_index) : ref_index;
+            float refraction_ratio = rec.front_face ? (1.0f / ir) : ir;
 
             vec3 unit_direction = unit_vector(r_in.direction());
-            float cos_theta = fmin(dot(unit_direction, rec.normal), 1.0f);
+            float cos_theta = fmin(dot(-unit_direction, rec.normal), 1.0f);
             float sin_theta = sqrt(1.0f - cos_theta * cos_theta);
 
             bool cannot_refract = refraction_ratio * sin_theta > 1.0f;
             vec3 direction;
 
-            // TODO: Fix bug where the if-statement always reflect and don't refract!
             if (cannot_refract || reflectance(cos_theta, refraction_ratio) > random_float()) {
                 direction = reflect(unit_direction, rec.normal);
             } else {
@@ -76,7 +75,7 @@ class dielectric : public material {
         }
 
         public:
-            float ref_index;
+            float ir;
 
         private:
             static float reflectance(float cosine, float ref_idx) {

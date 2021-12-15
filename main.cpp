@@ -30,7 +30,7 @@ int main(int argc, char **argv){
 
     // Image size
     const auto aspect_ratio = 16.0f / 9.0f;
-    const int image_width = 2000;  // Change to get different resolution. Default: 400
+    const int image_width = 500;  // Change to get different resolution. Default: 400
     const int image_height =static_cast<int>(image_width / aspect_ratio);
     const int samples_per_pixel = 100;
     const int max_depth = 50;
@@ -44,6 +44,7 @@ int main(int argc, char **argv){
     auto material_left = make_shared<dielectric>(1.5f);
     auto material_right = make_shared<metal>(color(0.8f, 0.2f, 0.2f), 0.0f);
 
+/*
     world.add(make_shared<sphere>(point3( 0.0f,  -100.5f,    -1.0f),  100.0f, material_ground));
     world.add(make_shared<sphere>(point3( 0.0f,     0.0f,    -1.0f),    0.5f, material_center));
     world.add(make_shared<sphere>(point3(-1.0f,     0.0f,    -1.0f),    0.5f, material_left));
@@ -59,9 +60,17 @@ int main(int argc, char **argv){
     world.add(make_shared<sphere>(point3( 1.0f,     0.0f,     0.0f),    0.5f, material_left));
     world.add(make_shared<sphere>(point3( 1.0f,     0.0f,     0.0f),   -0.4f, material_left));
     world.add(make_shared<sphere>(point3( 0.0f,     0.0f,     0.0f),    0.5f, material_right));
+*/
+
+    world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0, material_ground));
+    world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.0),   0.5, material_center));
+    world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),   0.5, material_left));
+    world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),  -0.4, material_left));
+    world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5, material_right));
 
     // Camera
-    camera camera(point3(-2,2,1), point3(0,0,-1), vec3(0,1,0), 80, aspect_ratio);
+    camera camera(point3(0,0,1), point3(0,0,-1), vec3(0,1,0), 50, aspect_ratio);
+    //camera camera(point3(-2,2,1), point3(0,0,-1), vec3(0,1,0), 80, aspect_ratio);
 
     // Render loop
     std::cout << "P3\n" << image_width << " " << image_height << "\n255\n";
