@@ -69,8 +69,13 @@ int main(int argc, char **argv){
     world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5, material_right));
 
     // Camera
-    camera camera(point3(0,0,1), point3(0,0,-1), vec3(0,1,0), 50, aspect_ratio);
-    //camera camera(point3(-2,2,1), point3(0,0,-1), vec3(0,1,0), 80, aspect_ratio);
+    point3 look_from(3.0f, 3.0f, 2.0f);
+    point3 look_at(0.0f, 0.0f, -1.0f);
+    vec3 vup(0.0f, 1.0f, 0.0f);
+    auto dist_to_focus = (look_from - look_at).length();
+    auto aperture = 0.125f;
+
+    camera camera(look_from, look_at, vup, 20.0f, aspect_ratio, aperture, dist_to_focus);
 
     // Render loop
     std::cout << "P3\n" << image_width << " " << image_height << "\n255\n";

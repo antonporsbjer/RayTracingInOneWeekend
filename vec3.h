@@ -143,4 +143,12 @@ vec3 refract(const vec3& uv, const vec3& n, float etaI_over_etaT){
     return r_out_perp + r_out_parallel;
 }
 
+vec3 random_point_in_unit_disk() {
+    while (true) {
+        auto point = vec3(random_float(-1.0f, 1.0f), random_float(-1.0f, 1.0f), 0.0f);
+        if (point.length_squared() >= 1.0f) { continue; }
+        return point;
+    }
+}
+
 #endif
