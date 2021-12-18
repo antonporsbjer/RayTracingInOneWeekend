@@ -3,7 +3,7 @@
 #include "color.h"
 #include "object3d_list.h"
 #include "material.h"
-#include "sphere.h"
+#include "geometry.h"
 
 #include <iostream>
 
@@ -30,7 +30,7 @@ object3d_list random_scene(){
     object3d_list world;
 
     auto ground_material = make_shared<lambertian>(color(0.5f, 0.5f, 0.5f));
-    world.add(make_shared<sphere>(point3(0,-1000,0), 1000, ground_material));
+    //world.add(make_shared<sphere>(point3(0,-1000,0), 1000, ground_material));
 
     for (int a = -11; a < 11; a++) {
         for (int b = -11; b < 11; b++) {
@@ -71,10 +71,10 @@ object3d_list random_scene(){
 int main(int argc, char **argv){
     /* Image size */
     const auto aspect_ratio = 3.0f / 2.0f;                                  // Change for diffrent aspect ratios. Widescreen: 16.0f / 9.0f;
-    const int image_width = 900;                                            // Change to get different resolution. Default: 400
+    const int image_width = 1000;                                            // Change to get different resolution. Default: 400
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 50;                                       // Change to get more detailed image. Default: 100;
-    const int max_depth = 50;                                               // Change for more/less ray bounces. Default: 50;
+    const int samples_per_pixel = 100;                                       // Change to get more detailed image. Default: 100;
+    const int max_depth = 100;                                               // Change for more/less ray bounces. Default: 50;
 
     /* Custom colors */
     const color color_default(0.4f, 0.2f, 0.1f);                            
@@ -82,6 +82,8 @@ int main(int argc, char **argv){
     const color color_red(0.8f, 0.2f, 0.2f);
     const color color_green(0.2f, 0.8f, 0.2f);
     const color color_blue(0.2f, 0.2f, 0.8f);
+    const color color_yellow(0.8f, 0.8f, 0.2f);
+    const color color_white(1.0f, 1.0f, 1.0f);
     
     // Metalic colors
     const color color_gold(0.9f, 0.7f, 0.2f);
@@ -105,14 +107,18 @@ int main(int argc, char **argv){
     auto material_metal_default_ruff = make_shared<metal>(color(0.4f, 0.3f, 0.6f), 0.25f);
     auto material_metal_gold = make_shared<metal>(color_gold, 0.1f);
     auto material_metal_silver = make_shared<metal>(color_silver, 0.1f);
+    auto material_metal_mirror = make_shared<metal>(color_white, 0.0f);
 
     // World
     auto world = random_scene();
+    //auto world = object3d_list();
  
     /* Add geometry to world */
     world.add(make_shared<sphere>(point3(0, 1, 0), 1.0f, material_glass));
     world.add(make_shared<sphere>(point3(-4, 1, 0), 1.0f, material_lamb_default));
     world.add(make_shared<sphere>(point3(4, 1, 0), 1.0f, material_metal_default));
+
+    world.add(make_shared<plane>(point3(0,0,0), vec3(0, 1, 0), material_metal_mirror));
 
     /* Camera */
     point3 look_from(13,2,5);
