@@ -73,7 +73,7 @@ int main(int argc, char **argv){
     const auto aspect_ratio = 3.0f / 2.0f;                                  // Change for diffrent aspect ratios. Widescreen: 16.0f / 9.0f;
     const int image_width = 900;                                            // Change to get different resolution. Default: 400
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 500;                                       // Change to get more detailed image. Default: 100;
+    const int samples_per_pixel = 50;                                       // Change to get more detailed image. Default: 100;
     const int max_depth = 50;                                               // Change for more/less ray bounces. Default: 50;
 
     /* Custom colors */
@@ -101,7 +101,7 @@ int main(int argc, char **argv){
     auto material_silicon = make_shared<dielectric>(3.45f);
 
     // Metal
-    auto material_metal_default = make_shared<metal>(color(0.4f, 0.3f, 0.6f), 0.0f);
+    auto material_metal_default = make_shared<metal>(color(0.7f, 0.6f, 0.5f), 0.0f);
     auto material_metal_default_ruff = make_shared<metal>(color(0.4f, 0.3f, 0.6f), 0.25f);
     auto material_metal_gold = make_shared<metal>(color_gold, 0.1f);
     auto material_metal_silver = make_shared<metal>(color_silver, 0.1f);
@@ -112,14 +112,14 @@ int main(int argc, char **argv){
     /* Add geometry to world */
     world.add(make_shared<sphere>(point3(0, 1, 0), 1.0f, material_glass));
     world.add(make_shared<sphere>(point3(-4, 1, 0), 1.0f, material_lamb_default));
-    world.add(make_shared<sphere>(point3(4, 1, 0), 1.0f, material_metal_default_ruff));
+    world.add(make_shared<sphere>(point3(4, 1, 0), 1.0f, material_metal_default));
 
     /* Camera */
     point3 look_from(13,2,5);
     point3 look_at(0,0,0);
     vec3 vup(0,1,0);
     auto dist_to_focus = 10.0f;
-    auto aperture = 0.125f; //0.5f;
+    auto aperture = 0.1f; //0.125f; //0.5f;
 
     camera camera(look_from, look_at, vup, 20.0f, aspect_ratio, aperture, dist_to_focus);
 

@@ -14,12 +14,12 @@ class sphere : public object3d {
             shared_ptr<material> sphere_material
         ) : center(sphere_center), radius(sphere_radius), material_ptr(sphere_material) {};
 
-        virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const override;
+    virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const override;
 
-        public:
-            point3 center;
-            float radius;
-            shared_ptr<material> material_ptr;
+    public:
+        point3 center;
+        float radius;
+        shared_ptr<material> material_ptr;
 };
 
 bool sphere::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
