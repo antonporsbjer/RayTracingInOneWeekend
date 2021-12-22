@@ -71,7 +71,7 @@ object3d_list random_scene(){
 int main(int argc, char **argv){
     /* Image size */
     const auto aspect_ratio = 3.0f / 2.0f;                                  // Change for diffrent aspect ratios. Widescreen: 16.0f / 9.0f;
-    const int image_width = 1000;                                            // Change to get different resolution. Default: 400
+    const int image_width = 500;                                            // Change to get different resolution. Default: 400
     const int image_height = static_cast<int>(image_width / aspect_ratio);
     const int samples_per_pixel = 100;                                       // Change to get more detailed image. Default: 100;
     const int max_depth = 100;                                               // Change for more/less ray bounces. Default: 50;
@@ -118,7 +118,7 @@ int main(int argc, char **argv){
     world.add(make_shared<sphere>(point3(-4, 1, 0), 1.0f, material_lamb_default));
     world.add(make_shared<sphere>(point3(4, 1, 0), 1.0f, material_metal_default));
 
-    world.add(make_shared<plane>(point3(0,0,0), vec3(0, 1, 0), material_metal_mirror));
+    world.add(make_shared<plane>(point3(0,0,0), vec3(0, 1, 0), material_ground));
 
     /* Camera */
     point3 look_from(13,2,5);
