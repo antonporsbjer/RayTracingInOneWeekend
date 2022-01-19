@@ -38,28 +38,29 @@ object3d_list random_scene(){
             point3 center(a + 0.9f * random_float(), 0.2f, b + 0.9f * random_float());
 
             if ((center - point3(4.0f, 0.2f, 0.0f)).length() > 0.9f) {
-                shared_ptr<material> sphere_material;
+                shared_ptr<material> lamb_material;
+                shared_ptr<material> metal_material;
+                shared_ptr<material> glass_material;
 
                 if (choose_material < 0.8f) {
                     // Diffuse
                     auto albedo = color::random() * color::random();
-                    sphere_material = make_shared<lambertian>(albedo);
-                    world.add(make_shared<sphere>(center, 0.2f, sphere_material));
+                    lamb_material = make_shared<lambertian>(albedo);
+                    world.add(make_shared<sphere>(center, 0.2f, lamb_material));
                 }
                 // TODO: Find what causes a bug when creating metal speres.
-                /*
+                
                 else if (choose_material < 0.95f) {
                     // Metal
                     auto albedo = color::random(0.5f, 1.0f);
                     auto fuzz = random_float(0.0f, 0.05f);
-                    sphere_material = make_shared<metal>(albedo, fuzz);
-                    world.add(make_shared<sphere>(center, 0.2f, sphere_material));
+                    metal_material = make_shared<metal>(albedo, fuzz);
+                    world.add(make_shared<sphere>(center, 0.2f, metal_material));
                 } 
-                */
                 else {
                     // Glass
-                    sphere_material = make_shared<dielectric>(1.5f);
-                    world.add(make_shared<sphere>(center, 0.2f, sphere_material));
+                    glass_material = make_shared<dielectric>(1.5f);
+                    world.add(make_shared<sphere>(center, 0.2f, glass_material));
                 }
             }
         }
